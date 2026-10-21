@@ -2,22 +2,18 @@
 
 {% block content %}
 
-    {% for post in posts %}
+{% for post in object_list %}
+<div class="post-entry">
+    <h2>
+        <a href="{% url 'post_detail' post.pk %}">
+            {{ post.title }}
+        </a>
+    </h2>
 
-        <div class="post-entry">
-
-            <h2>
-                <a href="{{ post.get_absolute_url }}">
-                    {{ post.title }}
-                </a>
-            </h2>
-
-            <p>Author: {{ post.author }}</p>
-
-            <p>{{ post.body }}</p>
-
-        </div>
-
-    {% endfor %}
+    <p>{{ post.body }}</p>
+</div>
+{% empty %}
+    <p>No blog posts yet.</p>
+{% endfor %}
 
 {% endblock content %}

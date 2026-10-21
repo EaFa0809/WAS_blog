@@ -1,37 +1,38 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Django Blog</title>
-
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
-        rel="stylesheet"
-    >
-
-    <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
-
 <body>
 
-    <header>
-        <div class="nav-left">
-            <h1>
-                <a href="{% url 'home' %}">Django Blog</a>
-            </h1>
-        </div>
-    </header>
+<header>
+    <h1><a href="{% url 'home' %}">Django Blog</a></h1>
 
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
+    {% if user.is_authenticated %}
+        <p>Hi {{ user.username }}!</p>
+
+        <a href="{% url 'post_new' %}">+ New Blog Post</a>
+
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+        </form>
+    {% else %}
+        <p>You are not logged in.</p>
+        <a href="{% url 'login' %}">Log In</a> |
+        <a href="{% url 'signup' %}">Sign Up</a>
+    {% endif %}
+</header>
+
+<hr>
+
+<main>
+    {% block content %}
+    {% endblock content %}
+</main>
 
 </body>
-
 </html>
